@@ -1,6 +1,6 @@
 baseurl = "https://www.example.com/"
 languageCode = "en-us"
-title = "Pine Island Engineering"
+title = "Pine Island Technologies"
 theme = "blackburn"
 author = "Andrew Naumann"
 copyright = "&copy; 2020. All rights reserved."
@@ -13,7 +13,7 @@ paginate = 10
 
 [params]
   # Shown in the home page
-  subtitle = "Everybody likes PIE, right?"
+  subtitle = "PIT"
   brand = "Blackburn"
   googleAnalytics = "Your Google Analytics tracking ID"
   disqus = "Your Disqus shortname"
