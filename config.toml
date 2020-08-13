@@ -1,7 +1,7 @@
 baseurl = "https://www.example.com/"
 languageCode = "en-us"
 title = "Pine Island Engineering"
-theme = "Blackburn"
+theme = "blackburn"
 author = "Andrew Naumann"
 copyright = "&copy; 2020. All rights reserved."
 canonifyurls = true
