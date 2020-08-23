@@ -27,17 +27,7 @@ Using real-time meteorological observations, I calculate and notify via SMS mess
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/project/real-time-surf-notifications-in-r/</guid>
-      <description>“You surf in Lake Michigan?!” Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better.
-Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan.</description>
-    </item>
-    
-    <item>
-      <title>Real-time Surf Forecasting in R</title>
-      <link>/project/real-time-surf-forecasting-in-r/</link>
-      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/project/real-time-surf-forecasting-in-r/</guid>
-      <description></description>
+      <description>“You surf in Lake Michigan?!” Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. After a few years of getting forecasts and conditions wrong, I decided to take the notifications and forecasting into my own hands, so I put mmy data science skills to work to build something better.</description>
     </item>
     
   </channel>

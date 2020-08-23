@@ -146,7 +146,7 @@
 
 <div id="you-surf-in-lake-michigan" class="section level1">
 <h1>“You surf in Lake Michigan?!”</h1>
-<p>Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better.</p>
+<p>Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. After a few years of getting forecasts and conditions wrong, I decided to take the notifications and forecasting into my own hands, so I put mmy data science skills to work to build something better.</p>
 <p>Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan.</p>
 <div id="a-quick-intro-to-great-lakes-surfing" class="section level2">
 <h2>A Quick Intro to Great Lakes Surfing</h2>
@@ -155,28 +155,32 @@
 <pre class="r"><code># define &quot;good&quot; conditions
 surf_wv_ht &lt;- 1 # meter
 surf_wv_per &lt;- 5 # seconds</code></pre>
-<p>Check out these free seminars for more info:</p>
-<p>There are three main resources I use to forecast waves:
-* NOAA shipping forecasts
-* Surf Websites (Surfline or MSW)
+<p>Check out these <a href="link">free seminars</a> for more info:</p>
+<p>There are three main resources I use to forecast waves:<br />
+* <a href="link">NOAA nearshore forecasts</a>
+* Surf Websites (<a href="www.surfline.com">Surfline</a> or <a href="www.magicseaweed.com">Magic Seasweed</a>)
 * Facebook Groups</p>
 <p>These resources are great, but lack (free) notifications or do not take into account the nuances of freshwater swells. Each of these resources requires a layer of interpretation on top of them.</p>
 </div>
 <div id="the-data" class="section level2">
 <h2>The Data</h2>
-<p>In the summertime, the NOAA places bouys in the lake to take measurements and publishes the data online in 30 minute increments.</p>
-<p>The data dictionary and measurement methodology can be found here. (Side note: I learned that “wave heights” are the top 1/3 of wave readings in a given 20 minute time period)</p>
-<p>The data for this first project can be found here.</p>
+<p>In the summertime, the NOAA places bouys in the lake to take measurements and publishes the data online in 30 minute increments. The NOAA offers a comprehensive <a href="link">data dictionary and measurement methodology</a> . (Side note: I learned that “wave heights” are the top 1/3 of wave readings in a given 20 minute time period)</p>
+<p>The data for this first project can be found <a href="link">https://www.ndbc.noaa.gov/data/realtime2/45013.txt</a></p>
+<p>Sensor data can be quite dirty data, and for this first installment, I replace all missing values with “0.” This will pose some issues for future predictive modelling. For example, a wind direction of “NA” means that there is no wind, and imputing the “0” indicates a northerly wind direction.</p>
 </div>
 </div>
 <div id="lets-surf" class="section level1">
 <h1>Let’s Surf!</h1>
-<p>This short project has three main steps:
-* read in online .txt file
-* manipulate the data
-* send text message via Twilio</p>
-<div id="reading-and-manipulating-the-data" class="section level2">
-<h2>Reading and manipulating the data</h2>
+<p>This short project has three main steps:</p>
+<ul>
+<li>read in online .txt file<br />
+</li>
+<li>manipulate the data<br />
+</li>
+<li>send text message via Twilio</li>
+</ul>
+<div id="reading-and-manipulating-the-data" class="section level3">
+<h3>Reading and manipulating the data</h3>
 <pre class="r"><code># read in .txt file from the NOAA website
 # df_import &lt;- readr::read_delim(&quot;https://www.ndbc.noaa.gov/data/realtime2/45013.txt&quot;, delim = &quot; &quot;)
 # saveRDS(a, &#39;/Users/AndrewMac/Desktop/ata.rds&#39;)
@@ -211,23 +215,33 @@ df_vars &lt;- df_manipulate %&gt;%
          ) %&gt;%
   arrange(desc(date))</code></pre>
 </div>
-<div id="lets-explore-it-a-little-bit" class="section level2">
-<h2>Let’s explore it a little bit</h2>
+<div id="lets-explore-it-a-little-bit" class="section level3">
+<h3>Let’s explore it a little bit</h3>
 <pre class="r"><code>ggplot(df_vars, aes(date, WVHT, color = factor(surfs_up))) +
   geom_point() + 
-  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;grey&quot;) +
   theme_minimal() +
   labs(title = &quot;45 Days of Swell Activity&quot;, 
-       subtitle = &quot;Station 45013&quot;,
+       subtitle = &quot;Station 45013, each dot represents one obseration&quot;,
        x = &quot;Date&quot;,
        y = &quot;Wave Height (meters)&quot;) </code></pre>
 <p><img src="/project/2020-08-16-real-time-surf-notifications-in-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
-<div id="send-the-text-message" class="section level2">
-<h2>Send the text message!</h2>
-<p>Twilio appears to be the best text message notification service in R, and best of all, it’s free!</p>
-<p>There are a plethora of other notifications out there such as email, tweets, or slack messages.</p>
-<p>I’ve stored a few secrets and reference them using the call. You can read more about storing secrets here.</p>
+<div id="lets-check-the-validity-of-this-approach" class="section level3">
+<h3>Let’s check the validity of this approach</h3>
+<p>How much time do you normally have to surf after the initial message?</p>
+<pre class="r"><code># calculate number of consecutive observations after the initial message
+df_surftime &lt;-  df_vars %&gt;%
+  arrange(date) %&gt;%
+  mutate(surf_time = ifelse(surfs_up == 1, sequence(rle(as.character(surfs_up))$lengths), 0)) %&gt;%
+  filter(surfs_up == 1) </code></pre>
+<p>Typically, you have about 3 hours to surf after the initial notification, which allows ample time to pack the car, drive to your local break, and have a long session .</p>
+</div>
+<div id="send-the-text-message" class="section level3">
+<h3>Send the text message!</h3>
+<p><a href="www.twilio.com">Twilio</a> appears to be the best text message notification service in R, and best of all, it’s free!</p>
+<p>There are a plethora of other ways to push notifications out there such as email, tweets, or slack messages.</p>
+<p>I’ve stored a few secrets and reference them in the script below. You can read more about storing secrets <a href="https://cran.r-project.org/web/packages/httr/vignettes/secrets.html">here</a>.</p>
 <pre class="r"><code># is there is surf within the past hour, send a text
 if (df_vars[1,8] == 1 | df_vars[1,8] == 1) {
   message &lt;- paste(&quot;Surf&#39;s Up! Waves are &quot;
@@ -240,16 +254,20 @@ twilio::tw_send_message(from = Sys.getenv(&quot;twilios_phone_number&quot;)
                           , body = message)
 } else
 {
-
+print(&quot;no surf&quot;)
 }
-## NULL</code></pre>
+## [1] &quot;no surf&quot;</code></pre>
 </div>
 <div id="further-improvements" class="section level2">
 <h2>Further improvements</h2>
-<p>Like referenced earlier, I plan on expanding on this concept in a few ways:
-* notify of “perfect” offshore wind conditions
-* notify via Twitter to reach a larger audience
-* further visualize the data and attempt to predict swells before they occur using wind and meteorlogical readings</p>
+<p>Like referenced earlier, I plan on expanding on this concept in a few ways:</p>
+<ul>
+<li>notify of “perfect” offshore wind conditions<br />
+</li>
+<li>notify via Twitter to reach a larger audience<br />
+</li>
+<li>further visualize the data and attempt to predict swells before they occur using wind and meteorlogical readings</li>
+</ul>
 <p>Optimally, I would schedule the script to run. On a windows machine, this is fairly straightforward with the ScheduleR add-in, but I am running on a Mac, and with the plethora and reliability of cloud-based solutions, the cloud is the way to go.</p>
 <p>I am looking to learn more about scheduling R scripts in the cloud using Docker, so please reach out with any resources you have come across!</p>
 </div>

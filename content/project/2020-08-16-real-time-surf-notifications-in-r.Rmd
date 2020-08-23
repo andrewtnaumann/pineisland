@@ -23,7 +23,7 @@ library(lubridate)
 
 # "You surf in Lake Michigan?!"
 
-Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better. 
+Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. After a few years of getting forecasts and conditions wrong, I decided to take the notifications and forecasting into my own hands, so I put mmy data science skills to work to build something better.
 
 Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan. 
 
@@ -39,32 +39,33 @@ surf_wv_ht <- 1 # meter
 surf_wv_per <- 5 # seconds
 ```
 
-Check out these free seminars for more info: 
+Check out these [free seminars](link) for more info: 
 
-There are three main resources I use to forecast waves:
-* NOAA shipping forecasts
-* Surf Websites (Surfline or MSW)
+There are three main resources I use to forecast waves:    
+* [NOAA nearshore forecasts](link)
+* Surf Websites ([Surfline](www.surfline.com) or [Magic Seasweed](www.magicseaweed.com))
 * Facebook Groups
 
 These resources are great, but lack (free) notifications or do not take into account the nuances of freshwater swells. Each of these resources requires a layer of interpretation on top of them. 
 
 ## The Data
 
-In the summertime, the NOAA places bouys in the lake to take measurements and publishes the data online in 30 minute increments. 
+In the summertime, the NOAA places bouys in the lake to take measurements and publishes the data online in 30 minute increments. The NOAA offers a comprehensive [data dictionary and measurement methodology](link) . (Side note: I learned that "wave heights" are the top 1/3 of wave readings in a given 20 minute time period)
 
-The data dictionary and measurement methodology can be found here. (Side note: I learned that "wave heights" are the top 1/3 of wave readings in a given 20 minute time period)
+The data for this first project can be found [https://www.ndbc.noaa.gov/data/realtime2/45013.txt](link)
 
-The data for this first project can be found here.
+Sensor data can be quite dirty data, and for this first installment, I replace all missing values with "0." This will pose some issues for future predictive modelling. For example, a wind direction of "NA" means that there is no wind, and imputing the "0" indicates a northerly wind direction. 
 
 # Let's Surf!
 
-This short project has three main steps:
-* read in online .txt file
-* manipulate the data
-* send text message via Twilio
+This short project has three main steps:    
 
-## Reading and manipulating the data
-```{r warnings = FALSE}
+* read in online .txt file    
+* manipulate the data    
+* send text message via Twilio    
+
+### Reading and manipulating the data
+```{r message = FALSE}
 # read in .txt file from the NOAA website
 # df_import <- readr::read_delim("https://www.ndbc.noaa.gov/data/realtime2/45013.txt", delim = " ")
 # saveRDS(a, '/Users/AndrewMac/Desktop/ata.rds')
@@ -89,25 +90,37 @@ df_vars <- df_manipulate %>%
   arrange(desc(date))
 ```
 
-## Let's explore it a little bit
+### Let's explore it a little bit
 ``` {r}
 ggplot(df_vars, aes(date, WVHT, color = factor(surfs_up))) +
   geom_point() + 
-  geom_hline(yintercept = 1, linetype = "dashed") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "grey") +
   theme_minimal() +
   labs(title = "45 Days of Swell Activity", 
-       subtitle = "Station 45013",
+       subtitle = "Station 45013, each dot represents one obseration",
        x = "Date",
        y = "Wave Height (meters)") 
 ```
 
-## Send the text message!
+### Let's check the validity of this approach
+How much time do you normally have to surf after the initial message?   
 
-Twilio appears to be the best text message notification service in R, and best of all, it's free!
+``` {r}
+# calculate number of consecutive observations after the initial message
+df_surftime <-  df_vars %>%
+  arrange(date) %>%
+  mutate(surf_time = ifelse(surfs_up == 1, sequence(rle(as.character(surfs_up))$lengths), 0)) %>%
+  filter(surfs_up == 1) 
+```
+Typically, you have about `r round(median(df_surftime$surf_time), 2)/2` hours to surf after the initial notification, which allows ample time to pack the car, drive to your local break, and have a long session .
 
-There are a plethora of other notifications out there such as email, tweets, or slack messages. 
+### Send the text message!
 
-I've stored a few secrets and reference them using the call. You can read more about storing secrets here. 
+[Twilio](www.twilio.com) appears to be the best text message notification service in R, and best of all, it's free!
+
+There are a plethora of other ways to push notifications out there such as email, tweets, or slack messages. 
+
+I've stored a few secrets and reference them in the script below. You can read more about storing secrets [here](https://cran.r-project.org/web/packages/httr/vignettes/secrets.html). 
 
 ``` {r}
 # is there is surf within the past hour, send a text
@@ -122,16 +135,17 @@ twilio::tw_send_message(from = Sys.getenv("twilios_phone_number")
                           , body = message)
 } else
 {
-
+print("no surf")
 }
 ```
 
 ## Further improvements
 
-Like referenced earlier, I plan on expanding on this concept in a few ways:
-* notify of "perfect" offshore  wind conditions
-* notify via Twitter to reach a larger audience
-* further visualize the data and attempt to predict swells before they occur using wind and meteorlogical readings
+Like referenced earlier, I plan on expanding on this concept in a few ways:    
+
+* notify of "perfect" offshore wind conditions    
+* notify via Twitter to reach a larger audience    
+* further visualize the data and attempt to predict swells before they occur using wind and meteorlogical readings    
 
 Optimally, I would schedule the script to run. On a windows machine, this is fairly straightforward with the ScheduleR add-in, but I am running on a Mac, and with the plethora and reliability of cloud-based solutions, the cloud is the way to go. 
 
