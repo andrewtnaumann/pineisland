@@ -1,0 +1,141 @@
+---
+title: Real Time Surf Notifications in R
+author: Andrew Naumann
+date: '2020-08-16'
+slug: real-time-surf-notifications-in-r
+categories:
+  - R
+tags:
+  - tidy
+  - SMS notification
+  - surf
+description: ''
+repo: ''
+weight: 0
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+library(tidyverse)
+library(readr)
+library(lubridate)
+```
+
+# "You surf in Lake Michigan?!"
+
+Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better. 
+
+Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan. 
+
+## A Quick Intro to Great Lakes Surfing
+
+Great Lakes swells are much shorter, smaller, and therefore harder to predict than ocean swells. Instead of large oceanic storms sending waves tens of thousands of miles away, Great Lakes storms rely on hundreds or even tens of miles to whip up waves. Waves last minutes instead of days. 
+
+"Good" conditions depend on the bottom structure of your spot, but usually waves larger than 3 feet and more than 6 seconds of period are surfable. We will dive into "perfect" conditions in a future post. 
+
+``` {r}
+# define "good" conditions
+surf_wv_ht <- 1 # meter
+surf_wv_per <- 5 # seconds
+```
+
+Check out these free seminars for more info: 
+
+There are three main resources I use to forecast waves:
+* NOAA shipping forecasts
+* Surf Websites (Surfline or MSW)
+* Facebook Groups
+
+These resources are great, but lack (free) notifications or do not take into account the nuances of freshwater swells. Each of these resources requires a layer of interpretation on top of them. 
+
+## The Data
+
+In the summertime, the NOAA places bouys in the lake to take measurements and publishes the data online in 30 minute increments. 
+
+The data dictionary and measurement methodology can be found here. (Side note: I learned that "wave heights" are the top 1/3 of wave readings in a given 20 minute time period)
+
+The data for this first project can be found here.
+
+# Let's Surf!
+
+This short project has three main steps:
+* read in online .txt file
+* manipulate the data
+* send text message via Twilio
+
+## Reading and manipulating the data
+```{r warnings = FALSE}
+# read in .txt file from the NOAA website
+# df_import <- readr::read_delim("https://www.ndbc.noaa.gov/data/realtime2/45013.txt", delim = " ")
+# saveRDS(a, '/Users/AndrewMac/Desktop/ata.rds')
+
+df_manipulate <- readRDS('/Users/AndrewMac/Desktop/ata.rds') %>%
+  # save only columns we want and rename some columns
+  select('#YY', ' MM', 'DD', 'hh', 'mm', 'WDIR', 'WSPD', 'GST', 'WVHT' = ' WVHT', 'DPD' = '  DPD',
+         ' WTMP') %>%
+  # remove the first row with measurement units
+  slice(-1) %>%
+  mutate_if(is.character, as.numeric) %>%
+  mutate(date = as.POSIXct(paste(`#YY`, "-", ` MM`, "-", `DD`, " ", `hh`, ":", `mm`, sep = ''), format = "%Y-%m-%d %H:%M")) %>%
+  select(-c("#YY", " MM", "DD", "hh", "mm")) %>%
+  arrange(date) %>%
+  # take care of missing values - missing values can either be 0 or missing observation
+  replace(is.na(.), 0)
+
+# define "good" surf
+df_vars <- df_manipulate %>%
+  mutate(surfs_up = ifelse(WVHT >= surf_wv_ht & DPD >= surf_wv_per, 1, 0)
+         ) %>%
+  arrange(desc(date))
+```
+
+## Let's explore it a little bit
+``` {r}
+ggplot(df_vars, aes(date, WVHT, color = factor(surfs_up))) +
+  geom_point() + 
+  geom_hline(yintercept = 1, linetype = "dashed") +
+  theme_minimal() +
+  labs(title = "45 Days of Swell Activity", 
+       subtitle = "Station 45013",
+       x = "Date",
+       y = "Wave Height (meters)") 
+```
+
+## Send the text message!
+
+Twilio appears to be the best text message notification service in R, and best of all, it's free!
+
+There are a plethora of other notifications out there such as email, tweets, or slack messages. 
+
+I've stored a few secrets and reference them using the call. You can read more about storing secrets here. 
+
+``` {r}
+# is there is surf within the past hour, send a text
+if (df_vars[1,8] == 1 | df_vars[1,8] == 1) {
+  message <- paste("Surf's Up! Waves are "
+                ,  df_vars[1,3]
+                , " ft."
+                , sep = "")
+
+twilio::tw_send_message(from = Sys.getenv("twilios_phone_number")
+                          , to = Sys.getenv("my_number")
+                          , body = message)
+} else
+{
+
+}
+```
+
+## Further improvements
+
+Like referenced earlier, I plan on expanding on this concept in a few ways:
+* notify of "perfect" offshore  wind conditions
+* notify via Twitter to reach a larger audience
+* further visualize the data and attempt to predict swells before they occur using wind and meteorlogical readings
+
+Optimally, I would schedule the script to run. On a windows machine, this is fairly straightforward with the ScheduleR add-in, but I am running on a Mac, and with the plethora and reliability of cloud-based solutions, the cloud is the way to go. 
+
+I am looking to learn more about scheduling R scripts in the cloud using Docker, so please reach out with any resources you have come across!
+
+# Thanks for reading! Mahalo!
+

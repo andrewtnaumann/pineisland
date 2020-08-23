@@ -6,43 +6,37 @@
     <description>Recent content in Projects on Pine Island Technologies</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sun, 23 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Project 1</title>
-      <link>/project/project1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Notifying &#34;Perfect surf Conditions&#34; in R</title>
+      <link>/project/notifying-perfect-surf-conditions-in-r/</link>
+      <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/project/project1/</guid>
-      <description></description>
+      <guid>/project/notifying-perfect-surf-conditions-in-r/</guid>
+      <description>“You surf in Lake Michigan?!” Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better.
+Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan.</description>
     </item>
     
     <item>
-      <title>Project 2</title>
-      <link>/project/project2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Real Time Surf Notifications in R</title>
+      <link>/project/real-time-surf-notifications-in-r/</link>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/project/project2/</guid>
-      <description></description>
+      <guid>/project/real-time-surf-notifications-in-r/</guid>
+      <description>“You surf in Lake Michigan?!” Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better.
+Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan.</description>
     </item>
     
     <item>
-      <title>Project 3</title>
-      <link>/project/project3/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Real-time Surf Forecasting in R</title>
+      <link>/project/real-time-surf-forecasting-in-r/</link>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/project/project3/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Project 4</title>
-      <link>/project/project4/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/project4/</guid>
+      <guid>/project/real-time-surf-forecasting-in-r/</guid>
       <description></description>
     </item>
     

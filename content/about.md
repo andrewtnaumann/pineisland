@@ -1,5 +1,5 @@
 ---
-description: What is Hugo?
+description: Who's behind Pine Island Technologies?
 title: About
 ---
 

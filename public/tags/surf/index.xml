@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>surf on Pine Island Technologies</title>
+    <link>/tags/surf/</link>
+    <description>Recent content in surf on Pine Island Technologies</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/surf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Notifying &#34;Perfect surf Conditions&#34; in R</title>
+      <link>/project/notifying-perfect-surf-conditions-in-r/</link>
+      <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project/notifying-perfect-surf-conditions-in-r/</guid>
+      <description>“You surf in Lake Michigan?!” Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better.
+Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan.</description>
+    </item>
+    
+    <item>
+      <title>Real Time Surf Notifications in R</title>
+      <link>/project/real-time-surf-notifications-in-r/</link>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project/real-time-surf-notifications-in-r/</guid>
+      <description>“You surf in Lake Michigan?!” Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better.
+Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan.</description>
+    </item>
+    
+    <item>
+      <title>Real-time Surf Forecasting in R</title>
+      <link>/project/real-time-surf-forecasting-in-r/</link>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project/real-time-surf-forecasting-in-r/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

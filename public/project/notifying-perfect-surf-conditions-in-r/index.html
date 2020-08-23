@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Notifying &#34;Perfect surf Conditions&#34; in R</title>
+        
+        <style>
+
+    html body {
+        font-family: 'Raleway', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: red;
+        --border-width:  5px ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.74.3" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">Notifying &#34;Perfect surf Conditions&#34; in R</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/about/">About</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/project/">Projects</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:me@example.com"><i class="fa fa-envelope-o"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/username/"><i class="fa fa-github"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://twitter.com/username/"><i class="fa fa-twitter"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.linkedin.com/in/username/"><i class="fa fa-linkedin"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.stackoverflow.com/username/"><i class="fa fa-stack-overflow"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>Notifying &#34;Perfect surf Conditions&#34; in R</h2>
+        <h5></h5>
+        
+<a href="/tags/surf"><kbd class="item-tag">surf</kbd></a>
+
+<a href="/tags/tidy"><kbd class="item-tag">tidy</kbd></a>
+
+
+    </div>
+
+    <div align="start" class="content">
+
+
+<div id="you-surf-in-lake-michigan" class="section level1">
+<h1>“You surf in Lake Michigan?!”</h1>
+<p>Three years ago, I rented a board on a whim from a local shop. The 75 degree, clear late summer day reminded me of far away tropical places like Hawaii and Puerto Rico. I was hooked. Five surfboards, two wetsuits, and many many snowy surf session later, I wanted a way to predict and notify of surf, but better.</p>
+<p>Using real-time meteorological observations, I calculate and notify via SMS message when to surf in Lake Michigan.</p>
+<div id="a-quick-intro-to-great-lakes-surfing" class="section level2">
+<h2>A Quick Intro to Great Lakes Surfing</h2>
+<p>Great Lakes swells are much shorter, smaller, and therefore harder to predict than ocean swells. Instead of large oceanic storms sending waves tens of thousands of miles away, Great Lakes storms rely on hundreds or even tens of miles to whip up waves. Waves last minutes instead of days.</p>
+<p>“Good” conditions depend on the bottom structure of your spot, but usually waves larger than 3 feet and more than 6 seconds of period are surfable. We will dive into “perfect” conditions in a future post.</p>
+<pre class="r"><code># define &quot;good&quot; conditions
+surf_wv_ht &lt;- 1 # meter
+surf_wv_per &lt;- 5 # seconds</code></pre>
+<p>Check out these free seminars for more info:</p>
+<p>There are three main resources I use to forecast waves:
+* NOAA shipping forecasts
+* Surf Websites (Surfline or MSW)
+* Facebook Groups</p>
+<p>These resources are great, but lack (free) notifications or do not take into account the nuances of freshwater swells. Each of these resources requires a layer of interpretation on top of them.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The Data</h2>
+<p>In the summertime, the NOAA places bouys in the lake to take measurements and publishes the data online in 30 minute increments.</p>
+<p>The data dictionary and measurement methodology can be found here. (Side note: I learned that “wave heights” are the top 1/3 of wave readings in a given 20 minute time period)</p>
+<p>The data for this first project can be found here.</p>
+</div>
+</div>
+<div id="lets-surf" class="section level1">
+<h1>Let’s Surf!</h1>
+<p>This short project has three main steps:
+* read in online .txt file
+* manipulate the data
+* send text message via Twilio</p>
+<p>You can embed an R code chunk like this:</p>
+<pre class="r"><code># read in .txt file from the NOAA website
+# df_import &lt;- readr::read_delim(&quot;https://www.ndbc.noaa.gov/data/realtime2/45013.txt&quot;, delim = &quot; &quot;)
+# saveRDS(a, &#39;/Users/AndrewMac/Desktop/ata.rds&#39;)
+
+
+df_manipulate &lt;- readRDS(&#39;/Users/AndrewMac/Desktop/ata.rds&#39;) %&gt;%
+  # save only columns we want and rename some columns
+  select(&#39;#YY&#39;, &#39; MM&#39;, &#39;DD&#39;, &#39;hh&#39;, &#39;mm&#39;, &#39;WDIR&#39;, &#39;WSPD&#39;, &#39;GST&#39;, &#39;WVHT&#39; = &#39; WVHT&#39;, &#39;DPD&#39; = &#39;  DPD&#39;,
+         &#39; WTMP&#39;) %&gt;%
+  # remove the first row with measurement units
+  slice(-1) %&gt;%
+  mutate_if(is.character, as.numeric) %&gt;%
+  mutate(date = as.POSIXct(paste(`#YY`, &quot;-&quot;, ` MM`, &quot;-&quot;, `DD`, &quot; &quot;, `hh`, &quot;:&quot;, `mm`, sep = &#39;&#39;), format = &quot;%Y-%m-%d %H:%M&quot;)) %&gt;%
+  select(-c(&quot;#YY&quot;, &quot; MM&quot;, &quot;DD&quot;, &quot;hh&quot;, &quot;mm&quot;)) %&gt;%
+  arrange(date) %&gt;%
+  # take care of missing values - missing values can either be 0 or missing observation
+  replace(is.na(.), 0)
+
+# define &quot;good&quot; surf
+b &lt;- a %&gt;%
+  mutate(surfs_up = ifelse(WVHT &gt;= surf_wv_ht &amp; DPD &gt;= surf_wv_per, 1, 0),
+         perf_cond = ifelse(surfs_up == 1 &amp; WDIR &gt;= surf_wnd_dir, 1, 0),
+         # amount of time a strong wind has blown over the lake
+         wave_wind = ifelse((WSPD &gt; 6.7 &amp; WDIR &gt;= 315) | 
+                             (WSPD &gt; 6.7 &amp;  WDIR &lt;= 235), 1, 0),
+         wave_wind_time = ifelse(wave_wind == 1, sequence(rle(as.character(wave_wind))$lengths), 0)
+         ) %&gt;%
+  arrange(desc(date))
+
+ggplot(b, aes(date, WVHT, color = factor(surfs_up))) +
+  geom_point()
+
+# there there is surf within the past hour, send a text
+if (b[1,8] == 1 | b[1,8] == 1) {
+  message &lt;- paste(&quot;Surf&#39;s Up! Waves are &quot;
+                ,  df_output[1,3]
+                , &quot; ft.&quot;
+                , sep = &quot;&quot;)
+
+twilio::tw_send_message(from = Sys.getenv(&quot;twilios_phone_number&quot;)
+                          , to = Sys.getenv(&quot;my_number&quot;)
+                          , body = message)
+} else
+{
+  
+}
+</code></pre>
+</div>
+<div id="including-plots" class="section level1">
+<h1>Including Plots</h1>
+<p>You can also embed plots. See Figure <a href="#fig:pie">1</a> for example:</p>
+<pre class="r"><code>par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c(&#39;Sky&#39;, &#39;Sunny side of pyramid&#39;, &#39;Shady side of pyramid&#39;),
+  col = c(&#39;#0292D8&#39;, &#39;#F7EA39&#39;, &#39;#C4B632&#39;),
+  init.angle = -50, border = NA
+)</code></pre>
+<div class="figure"><span id="fig:pie"></span>
+<img src="/post/2020-08-23-notifying-perfect-surf-conditions-in-r_files/figure-html/pie-1.png" alt="A fancy pie chart." width="672" />
+<p class="caption">
+Figure 1: A fancy pie chart.
+</p>
+</div>
+</div>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+
